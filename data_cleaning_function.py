@@ -67,13 +67,23 @@ def fillna(df:pd.DataFrame, col:str, fill:str)->pd.DataFrame:
         df[col] = df[col].fillna(fill)
         return df
 
-def chance_datatype(df:pd.DataFrame, col=str, d_type=type)->pd.DataFrame:
+def chance_datatype(df:pd.DataFrame, col:str, d_type:type) -> pd.DataFrame:
     '''
     chancing the datatype of a column 
     '''
-    if df[col].astype(d_type) is not d_type:
+    if df[col].dtype is not d_type:
         df[col] = df[col].astype(d_type)
         return df
+    
+def chance_object_to_datetime(df:pd.DataFrame, col:str) -> pd.DataFrame:
+    '''
+    chancing the type of a object column to datetime and the invalid vallues will be set as NaT.
+    '''
+    if df[col].dtype == 'O':
+        df[col] = pd.to_datetime(df[col], errors='coerce')
+        return df
+    else:
+        pass
 
 def split(df: pd.DataFrame, symbol:str, col:str)-> pd.DataFrame:
     '''
